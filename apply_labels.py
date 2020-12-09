@@ -44,7 +44,8 @@ def get_matching_repositories(github: Github, org: Optional[str], repos: str) ->
         for organisation in github.get_user().get_orgs():
             if org in [organisation.name, organisation.login]:
                 for repository in organisation.get_repos():
-                    yield repository
+                    if repos_pattern.match(repository.name):
+                        yield repository
     else:
         for repository in github.get_user().get_repos():
             if repos_pattern.match(repository.name):
